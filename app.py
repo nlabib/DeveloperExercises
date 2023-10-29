@@ -21,7 +21,6 @@ def get_homeruns():
     result = top_batters.to_dict(orient="records")
     return jsonify(result)
 
-@app.route('/api/batters', methods=['GET'])
 
 if __name__ == '__main__':
     app.run(debug=True)

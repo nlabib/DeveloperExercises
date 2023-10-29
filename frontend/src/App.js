@@ -1,25 +1,17 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
 
-function App() {
+import Base from "./Components/pages/base";
+import BatterLeaderboards from "./Components/pages/BatterLeaderboards.js";
+import PitcherLeaderboards from "./Components/pages/PitcherLeaderboards";
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Base />
+      <BatterLeaderboards />
+      <div className="mt-6"></div>
+      <PitcherLeaderboards />
     </div>
   );
-}
+};
 
 export default App;
