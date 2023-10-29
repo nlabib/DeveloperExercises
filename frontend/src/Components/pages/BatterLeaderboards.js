@@ -3,9 +3,15 @@ import React, { useState, useEffect } from "react";
 function BatterLeaderboards() {
   const [players, setPlayers] = useState([]);
   const [activeTab, setActiveTab] = useState("homeruns");
+  const [exitSpeedData, setExitSpeedData] = useState([]);
 
   useEffect(() => {
     // Fetch data from Flask API
+
+    fetch("/api/exitspeed")
+      .then((response) => response.json())
+      .then((data) => setExitSpeedData(data));
+
     fetch("/api/homeruns")
       .then((response) => response.json())
       .then((data) => {
@@ -16,6 +22,7 @@ function BatterLeaderboards() {
         setPlayers(topPlayers);
       });
   }, []);
+
   return (
     <div className="container mx-auto p-4">
       <div className="bg-white shadow-md rounded-md">
@@ -101,10 +108,14 @@ function BatterLeaderboards() {
                     </tr>
                   </thead>
                   <tbody className="bg-white divide-y divide-gray-200">
-                    <tr>
-                      <td className="px-6 py-4 whitespace-nowrap">John Doe</td>
-                      <td className="px-6 py-4">0 mph</td>
-                    </tr>
+                    {exitSpeedData.map((player) => (
+                      <tr key={player.BATTER_ID}>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          {player.BATTER}
+                        </td>
+                        <td className="px-6 py-4">{player.EXIT_SPEED}</td>
+                      </tr>
+                    ))}
                   </tbody>
                 </table>
               </div>

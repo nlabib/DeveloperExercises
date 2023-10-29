@@ -22,5 +22,14 @@ def get_homeruns():
     return jsonify(result)
 
 
+@app.route('/api/exitspeed', methods=['GET'])
+def get_exit_speed():
+    # Sort by exit speed and get top 10
+    top_exit_speed = df.nlargest(10, 'EXIT_SPEED')
+    # Convert to JSON and return
+    
+    return top_exit_speed.to_json(orient='records')
+
+
 if __name__ == '__main__':
     app.run(debug=True)
