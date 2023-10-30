@@ -2,6 +2,26 @@ import React, { useState, useEffect } from "react";
 
 function PitcherLeaderboards() {
   const [activeTab, setActiveTab] = useState("Pitching Velocity");
+  const [topPitchersData, setTopPitchersData] = useState([]);
+  const [spinRateData, setSpinRateData] = useState([]);
+  const [strikeOutData, setStrikeOutData] = useState([]);
+  console.log(strikeOutData);
+
+  useEffect(() => {
+    // Fetch top pitchers data
+    fetch("/api/toppitchers")
+      .then((response) => response.json())
+      .then((data) => setTopPitchersData(data));
+
+    // 2. Fetch spin rate data
+    fetch("/api/topspinrate")
+      .then((response) => response.json())
+      .then((data) => setSpinRateData(data));
+
+    fetch("/api/strikeouts")
+      .then((response) => response.json())
+      .then((data) => setStrikeOutData(data));
+  }, []);
 
   return (
     <div className="container mx-auto p-4">
@@ -53,18 +73,24 @@ function PitcherLeaderboards() {
                   <thead>
                     <tr>
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Batter
+                        Pitcher
                       </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Total Home Runs
+                      <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Average Exit Velocity (mph)
                       </th>
                     </tr>
                   </thead>
                   <tbody className="bg-white divide-y divide-gray-200">
-                    <tr>
-                      <td className="px-6 py-4 whitespace-nowrap">John Doe</td>
-                      <td className="px-6 py-4">0</td>
-                    </tr>
+                    {topPitchersData.map((pitcher) => (
+                      <tr key={pitcher.PITCHER}>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          {pitcher.PITCHER}
+                        </td>
+                        <td className="text-right px-6 py-4">
+                          {pitcher.EXIT_SPEED.toFixed(2)} mph
+                        </td>
+                      </tr>
+                    ))}
                   </tbody>
                 </table>
               </div>
@@ -75,18 +101,24 @@ function PitcherLeaderboards() {
                   <thead>
                     <tr>
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Batter
+                        Pitcher
                       </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Average Exit Speed (mph)
+                      <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Average Spin Rate (rpm)
                       </th>
                     </tr>
                   </thead>
                   <tbody className="bg-white divide-y divide-gray-200">
-                    <tr>
-                      <td className="px-6 py-4 whitespace-nowrap">John Doe</td>
-                      <td className="px-6 py-4">0 mph</td>
-                    </tr>
+                    {spinRateData.map((pitcher) => (
+                      <tr key={pitcher.PITCHER}>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          {pitcher.PITCHER}
+                        </td>
+                        <td className="text-right px-6 py-4">
+                          {pitcher.HIT_SPIN_RATE.toFixed(2)} rpm
+                        </td>
+                      </tr>
+                    ))}
                   </tbody>
                 </table>
               </div>
@@ -97,18 +129,24 @@ function PitcherLeaderboards() {
                   <thead>
                     <tr>
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Batter
+                        Pitcher
                       </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Total Sweet Spot Hits
+                      <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Total Strike Outs
                       </th>
                     </tr>
                   </thead>
                   <tbody className="bg-white divide-y divide-gray-200">
-                    <tr>
-                      <td className="px-6 py-4 whitespace-nowrap">John Doe</td>
-                      <td className="px-6 py-4">0</td>
-                    </tr>
+                    {strikeOutData.map((pitcher) => (
+                      <tr key={pitcher.PITCHER}>
+                        <td className="text-left px-6 py-4 whitespace-nowrap">
+                          {pitcher.PITCHER}
+                        </td>
+                        <td className="text-right px-6 py-4">
+                          {pitcher.strikeouts}
+                        </td>
+                      </tr>
+                    ))}
                   </tbody>
                 </table>
               </div>

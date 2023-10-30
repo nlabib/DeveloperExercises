@@ -1,16 +1,22 @@
 import React, { useState, useEffect } from "react";
 
 function BatterLeaderboards() {
-  const [players, setPlayers] = useState([]);
-  const [activeTab, setActiveTab] = useState("homeruns");
-  const [exitSpeedData, setExitSpeedData] = useState([]);
+  const [players, setPlayers] = useState([]); // Add players state
+  const [activeTab, setActiveTab] = useState("homeruns"); // Add activeTab state
+  const [exitSpeedData, setExitSpeedData] = useState([]); // Add exitSpeedData state
+  const [hitDistanceData, setHitDistanceData] = useState([]); // Add hitDistanceData state
+  const [sweetSpotData, setSweetSpotData] = useState([]);
 
   useEffect(() => {
-    // Fetch data from Flask API
-
+    //fetch exit speed
     fetch("/api/exitspeed")
       .then((response) => response.json())
       .then((data) => setExitSpeedData(data));
+
+    //fetch hit distance
+    fetch("/api/hitdistance")
+      .then((response) => response.json())
+      .then((data) => setHitDistanceData(data));
 
     fetch("/api/homeruns")
       .then((response) => response.json())
@@ -21,6 +27,10 @@ function BatterLeaderboards() {
           .slice(0, 10);
         setPlayers(topPlayers);
       });
+
+    fetch("/api/sweetspots")
+      .then((response) => response.json())
+      .then((data) => setSweetSpotData(data));
   }, []);
 
   return (
@@ -65,6 +75,18 @@ function BatterLeaderboards() {
                 Sweet Spots
               </button>
             </li>
+            <li className="-mb-px mr-1">
+              <button
+                className={`py-2 px-4 border-l border-t border-r rounded-t ${
+                  activeTab === "hitdistance"
+                    ? "bg-blue-500 text-white"
+                    : "text-blue-500 bg-white"
+                }`}
+                onClick={() => setActiveTab("hitdistance")}
+              >
+                Hit Distance
+              </button>
+            </li>
           </ul>
 
           <div className="p-4">
@@ -76,7 +98,7 @@ function BatterLeaderboards() {
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                         Batter
                       </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
                         Total Home Runs
                       </th>
                     </tr>
@@ -87,7 +109,9 @@ function BatterLeaderboards() {
                         <td className="px-6 py-4 whitespace-nowrap">
                           {player.BATTER}
                         </td>
-                        <td className="px-6 py-4">{player.homeruns}</td>
+                        <td className="px-6 py-4 text-right">
+                          {player.homeruns}
+                        </td>
                       </tr>
                     ))}
                   </tbody>
@@ -102,7 +126,7 @@ function BatterLeaderboards() {
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                         Batter
                       </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
                         Average Exit Speed (mph)
                       </th>
                     </tr>
@@ -113,7 +137,16 @@ function BatterLeaderboards() {
                         <td className="px-6 py-4 whitespace-nowrap">
                           {player.BATTER}
                         </td>
-                        <td className="px-6 py-4">{player.EXIT_SPEED}</td>
+                        <td className="px-6 py-4 text-right">
+                          <a
+                            href={player.VIDEO_LINK}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-blue-500 underline hover:text-blue-700"
+                          >
+                            {player.EXIT_SPEED} mph
+                          </a>
+                        </td>
                       </tr>
                     ))}
                   </tbody>
@@ -128,16 +161,57 @@ function BatterLeaderboards() {
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                         Batter
                       </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Total Sweet Spot Hits
+                      <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Sweet Spot Hits
                       </th>
                     </tr>
                   </thead>
                   <tbody className="bg-white divide-y divide-gray-200">
+                    {sweetSpotData.map((player) => (
+                      <tr key={player.BATTER}>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          {player.BATTER}
+                        </td>
+                        <td className="px-6 py-4 text-right">
+                          {player.sweetspots}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+            {activeTab === "hitdistance" && (
+              <div>
+                <table className="min-w-full divide-y divide-gray-200">
+                  <thead>
                     <tr>
-                      <td className="px-6 py-4 whitespace-nowrap">John Doe</td>
-                      <td className="px-6 py-4">0</td>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Batter
+                      </th>
+                      <th className=" py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Hit Distance (feet)
+                      </th>
                     </tr>
+                  </thead>
+                  <tbody className="bg-white divide-y divide-gray-200">
+                    {hitDistanceData.map((player) => (
+                      <tr key={player.BATTER_ID}>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          {player.BATTER}
+                        </td>
+                        <td className="px-6 py-4 text-right">
+                          <a
+                            href={player.VIDEO_LINK}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-blue-500 underline hover:text-blue-700"
+                          >
+                            {player.HIT_DISTANCE} feet
+                          </a>
+                        </td>
+                      </tr>
+                    ))}
                   </tbody>
                 </table>
               </div>

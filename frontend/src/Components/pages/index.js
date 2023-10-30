@@ -1,1 +1,7 @@
-export {BatterLeaderboards, HomeRunHighlights, OutfieldersPerformance};
+export {
+  BatterLeaderboards,
+  HomeRunHighlights,
+  OutfieldersPerformance,
+  PitcherLeaderboards,
+  GameplayCalendar,
+};
