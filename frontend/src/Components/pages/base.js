@@ -1,19 +1,19 @@
-import { Fragment } from 'react'
-import { Disclosure, Menu, Transition } from '@headlessui/react'
-import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
-
+import { Fragment } from "react";
+import { Disclosure, Menu, Transition } from "@headlessui/react";
+import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import BatterLeaderboards from "./BatterLeaderboards";
 const navigation = [
-  { name: 'Top Batsman', href: '#', current: true },
-  { name: 'Top Pitcher', href: '#', current: false },
-  { name: 'Impact Distance', href: '#', current: false },
-  { name: 'Game Highlights', href: '#', current: false },
-]
+  { name: "Batsmans Leaderboard", href: "BatterLeaderboards", current: true },
+  { name: "Pitcher", href: "#", current: false },
+  { name: "Impact Distance", href: "#", current: false },
+  { name: "Game Highlights", href: "#", current: false },
+];
 
 function classNames(...classes) {
-  return classes.filter(Boolean).join(' ')
+  return classes.filter(Boolean).join(" ");
 }
 
-function Base () {
+function Base() {
   return (
     <Disclosure as="nav" className="bg-gray-800">
       {({ open }) => (
@@ -47,10 +47,12 @@ function Base () {
                         key={item.name}
                         href={item.href}
                         className={classNames(
-                          item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                          'rounded-md px-3 py-2 text-sm font-medium'
+                          item.current
+                            ? "bg-gray-900 text-white"
+                            : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                          "rounded-md px-3 py-2 text-sm font-medium"
                         )}
-                        aria-current={item.current ? 'page' : undefined}
+                        aria-current={item.current ? "page" : undefined}
                       >
                         {item.name}
                       </a>
@@ -58,7 +60,6 @@ function Base () {
                   </div>
                 </div>
               </div>
-             
             </div>
           </div>
 
@@ -70,10 +71,12 @@ function Base () {
                   as="a"
                   href={item.href}
                   className={classNames(
-                    item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                    'block rounded-md px-3 py-2 text-base font-medium'
+                    item.current
+                      ? "bg-gray-900 text-white"
+                      : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                    "block rounded-md px-3 py-2 text-base font-medium"
                   )}
-                  aria-current={item.current ? 'page' : undefined}
+                  aria-current={item.current ? "page" : undefined}
                 >
                   {item.name}
                 </Disclosure.Button>
@@ -83,6 +86,6 @@ function Base () {
         </>
       )}
     </Disclosure>
-  )
+  );
 }
 export default Base;

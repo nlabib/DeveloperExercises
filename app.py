@@ -112,21 +112,6 @@ def get_strikeouts():
     result = top_pitchers.to_dict(orient="records")
     return jsonify(result)
 
-@app.route('/api/gameplay', methods=['GET'])
-def get_gameplay_data():
-    # Get the date from the request arguments
-    date = request.args.get('date')
-    
-    # Filter the data by the given date
-    filtered_data = df[df['GAME_DATE'] == date]
-    
-    # If no data is found for the given date, return an error message
-    if filtered_data.empty:
-        return jsonify({"error": "No gameplay data found for the given date"}), 404
-
-    # Convert the filtered dataframe to a list of dictionaries
-    result = filtered_data.to_dict(orient="records")
-    return jsonify(result)
 
 
 

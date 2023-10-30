@@ -3,5 +3,4 @@ export {
   HomeRunHighlights,
   OutfieldersPerformance,
   PitcherLeaderboards,
-  GameplayCalendar,
 };

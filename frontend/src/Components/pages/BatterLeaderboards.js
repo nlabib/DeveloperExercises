@@ -109,7 +109,7 @@ function BatterLeaderboards() {
                         <td className="px-6 py-4 whitespace-nowrap">
                           {player.BATTER}
                         </td>
-                        <td className="px-6 py-4 text-right">
+                        <td className="text-right px-6 py-4">
                           {player.homeruns}
                         </td>
                       </tr>
