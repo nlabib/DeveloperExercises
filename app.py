@@ -1,5 +1,8 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify
 import pandas as pd
+import plotly.express as px
+import plotly.io as pio
+
 
 app = Flask(__name__)
 
@@ -71,7 +74,6 @@ def get_top_pitchers():
     result = aggregated_data.to_dict(orient="records")
     return jsonify(result)
  
-    
 @app.route('/api/topspinrate', methods=['GET'])
 def get_top_spin_rate():
     # Group by 'PITCHER' and calculate the average SPIN_RATE for each pitcher
@@ -110,11 +112,9 @@ def get_strikeouts():
 
     # Convert the sorted dataframe to a list of dictionaries
     result = top_pitchers.to_dict(orient="records")
-    return jsonify(result)
+    return jsonify(result) 
 
-
-
-
+    
 
 if __name__ == '__main__':
     app.run(debug=True)
