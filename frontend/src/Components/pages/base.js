@@ -9,8 +9,7 @@ const navigation = [
     href: "#PitcherLeaderboards",
     current: false,
   },
-  { name: "Impact Distance", href: "#", current: false },
-  { name: "Game Highlights", href: "#", current: false },
+  { name: "Graphs", href: "#Charts", current: false },
 ];
 
 function classNames(...classes) {

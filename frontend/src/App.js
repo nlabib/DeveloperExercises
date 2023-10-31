@@ -13,13 +13,16 @@ const App = () => {
       </div>
       <div id="PitcherLeaderboards" className="mt-6"></div>
       <PitcherLeaderboards />
-      <div className="mt-6">
-        <div>
-          <PlayOutcomeChart />
+      <div id="Charts" className="px-4">
+        <h2 className="text-2xl font-semibold text-center">Graphs</h2>
+        <div className="mt-6">
+          <div>
+            <PlayOutcomeChart />
+          </div>
         </div>
-      </div>
-      <div>
-        <Heatmap />
+        <div>
+          <Heatmap />
+        </div>
       </div>
     </div>
   );
