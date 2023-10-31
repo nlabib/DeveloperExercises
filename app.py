@@ -51,7 +51,6 @@ def get_sweetspots():
     result = top_batters.to_dict(orient="records")
     return jsonify(result)
 
-
 #Pitcher LeaderBoard
 @app.route('/api/toppitchers', methods=['GET'])
 def get_top_pitchers():
@@ -114,7 +113,30 @@ def get_strikeouts():
     result = top_pitchers.to_dict(orient="records")
     return jsonify(result) 
 
-    
+@app.route('/api/scatterdata', methods=['GET'])
+def scatter_data():
+    data = df[['LAUNCH_ANGLE', 'EXIT_SPEED', 'BATTER']].to_dict(orient="records")
+    return jsonify(data)
 
+
+@app.route('/api/heatmapdata', methods=['GET'])
+def heatmap_data():
+    data = df[['EXIT_DIRECTION', 'HIT_DISTANCE']].to_dict(orient="records")
+    
+    # Calculate min and max values for both axes
+    bounds = {
+        'min_exit_direction': df['EXIT_DIRECTION'].min(),
+        'max_exit_direction': df['EXIT_DIRECTION'].max(),
+        'min_hit_distance': df['HIT_DISTANCE'].min(),
+        'max_hit_distance': df['HIT_DISTANCE'].max(),
+    }
+    return jsonify({'data': data, 'bounds': bounds})
+
+@app.route('/api/playoutcome', methods=['GET'])
+def play_outcome_data():
+    # Group by 'PLAY_OUTCOME', 'LAUNCH_ANGLE', 'EXIT_VELO', and 'EXIT_DIRECTION'
+    # and get their counts
+    grouped_data = df.groupby(['PLAY_OUTCOME', 'LAUNCH_ANGLE', 'EXIT_SPEED', 'EXIT_DIRECTION']).size().reset_index(name='counts')
+    return grouped_data.to_json(orient="records")
 if __name__ == '__main__':
     app.run(debug=True)
