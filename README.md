@@ -67,7 +67,7 @@ The backend server will start on `http://127.0.0.1:5000/`.
 1. Navigate to the frontend directory:
 
 ```sh
-cd client
+cd frontend
 ```
 
 2. Install the required npm packages:
